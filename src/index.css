@@ -909,10 +909,10 @@ form{
   align-items: center;
 }
 
-.product-img {
+.cart-product-img {
   flex: 0 0 auto;
 }
-.product-img img {
+.cart-product-img img {
   width: 120px;
   height:100px;
   margin-right: 15px;

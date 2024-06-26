@@ -7,12 +7,14 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import Log from './screens/Log';
 function App() {
   return (
     <Router>
       <div>
         <Routes>
           <Route exact path="/" element={<Home></Home>}></Route>
+          <Route exact path="/createuser" element={<Log></Log>}></Route>
         </Routes>
       </div>
     </Router>

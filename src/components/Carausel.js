@@ -18,7 +18,7 @@ export default function Carausel() {
                                     <h1 className="slider-title1 text-uppercase"><span className=" d-sm-block">luminary </span> candle</h1>
                                 </div>
                                 <div className="wow fadeInUpBig animated" data-wow-duration="2s" data-wow-delay="0.5s" style={{ visibility: 'visible', animationDuration: '2s', animationDelay: '0.5s', animationName: 'fadeInUpBig' }}>
-                                    <button className='button-one'>Shop now</button>
+                                    <button className='button-one'>Login</button>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,7 @@ export default function Carausel() {
                                     <p className="slider-pro-brief">Explore our page to discover a vast array of candles in an assortment of delightful scents. From soothing lavender to invigorating citrus, we offer a fragrance for every preference. Dive into our collection and find the perfect scent to elevate your ambiance.</p>
                                 </div>
                                 <div className="wow fadeInUpBig animated" data-wow-duration="2.5s" data-wow-delay="0.5s" style={{ visibility: 'visible', animationDuration: '2.5s', animationDelay: '0.5s', animationName: 'fadeInUpBig' }}>
-                                    <button className='button-one'>Shop now</button>
+                                    <button className='button-one'>Login</button>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +56,7 @@ export default function Carausel() {
                                     <p className="slider-pro-brief">Step into our world where candles glow, each scent a story waiting to unfold. From lavender's calm to citrus's zest, find your perfect fragrance and light up your nest.</p>
                                 </div>
                                 <div className="wow fadeInUpBig animated" data-wow-duration="2.5s" data-wow-delay="0.5s" style={{ visibility: 'visible', animationDuration: '2.5s', animationDelay: '0.5s', animationName: 'fadeInUpBig' }}>
-                                    <button className='button-one'>Shop now</button>
+                                    <button className='button-one'>Login</button>
                                 </div>
                             </div>
                         </div>

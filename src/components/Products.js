@@ -74,7 +74,7 @@ const Products = () => {
                                 <h4 className="post-title floatleft">{product.name}</h4>
                             </div>
                             <div className="fix">
-                                <span className="pro-price floatleft">$ {product.price}</span>
+                                <span className="pro-price floatleft">₹ {product.price}</span>
                                 <span className="pro-rating floatright">
                                     {[...Array(5)].map((_, index) => {
                                         if (index < Math.floor(product.rating)) {

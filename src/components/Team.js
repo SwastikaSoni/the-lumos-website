@@ -25,9 +25,9 @@ export default function Team() {
                             <p className="text-gray">Your dreams are the blueprint to your future—build it with determination and hard work.</p>
                             <div className="team-social">
                                 <ul>
-                                    <li><Link to="#"><FontAwesomeIcon icon={faLinkedin} /></Link></li>
-                                    <li><Link to="#"><FontAwesomeIcon icon={faInstagram} /></Link></li>
-                                    <li><Link to="#"><FontAwesomeIcon icon={faPinterest} /></Link></li>
+                                    <li><Link to="https://www.linkedin.com/in/swastika-soni/"><FontAwesomeIcon icon={faLinkedin} /></Link></li>
+                                    <li><Link to="https://www.instagram.com/_swasss_09?igsh=c3plcWJ3Zzdjd3Zr"><FontAwesomeIcon icon={faInstagram} /></Link></li>
+                                    <li><Link to="https://in.pinterest.com/swastikasony/"><FontAwesomeIcon icon={faPinterest} /></Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -41,8 +41,8 @@ export default function Team() {
                             <div className="team-social">
                                 <ul>
                                     <li><Link to="#"><FontAwesomeIcon icon={faTwitter} /></Link></li>
-                                    <li><Link to="#"><FontAwesomeIcon icon={faInstagram} /></Link></li>
-                                    <li><Link to="#"><FontAwesomeIcon icon={faPinterest} /></Link></li>
+                                    <li><Link to="https://www.instagram.com/aunspokentruth?igsh=MWJ1Ynl4ajd1bGo3NA=="><FontAwesomeIcon icon={faInstagram} /></Link></li>
+                                    <li><Link to="https://in.pinterest.com/aunspokentruth/"><FontAwesomeIcon icon={faPinterest} /></Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -54,8 +54,8 @@ export default function Team() {
                             <p className="text-gray">Every challenge is a stepping stone towards your success—embrace them and keep moving forward.</p>
                             <div className="team-social">
                                 <ul>
-                                    <li><Link to="#"><FontAwesomeIcon icon={faInstagram} /></Link></li>
-                                    <li><Link to="#"><FontAwesomeIcon icon={faPinterest} /></Link></li>
+                                    <li><Link to="https://www.instagram.com/bumfuzzle.saumi?igsh=YWhwbmJibXNkOWJk"><FontAwesomeIcon icon={faInstagram} /></Link></li>
+                                    <li><Link to="https://in.pinterest.com/SaumilyaSumeet/"><FontAwesomeIcon icon={faPinterest} /></Link></li>
                                 </ul>
                             </div>
                         </div>

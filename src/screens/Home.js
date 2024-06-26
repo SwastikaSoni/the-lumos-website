@@ -1,13 +1,17 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Pop from '../components/Pop'
+// import Cart from './Cart'
+// import Checkout from './Checkout'
+// import Orders from './Orders'
+// import Profile from './Profile'
+import Log from './Log'
+import Body from './Body'
+// import Navbar from '../components/Navbar'
+// import Footer from '../components/Footer'
 export default function Home() {
   return (
     <div>
-      <div><Navbar></Navbar></div>
-      <div><Pop></Pop></div>
-      <div><Footer></Footer></div>
+      <Body></Body>
+      {/* <Log></Log> */}
     </div>
   )
 }

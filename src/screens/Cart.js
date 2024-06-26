@@ -4,10 +4,13 @@ import cart from '../images/Shopping cart.png';
 import candle1 from '../images/lumos.jpg';
 import candle2 from '../images/lumos2.jpg';
 import candle3 from '../images/lumos3.jpg';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 export default function Cart() {
     return (
         <div>
+            <div><Navbar></Navbar></div>
             <div className="cart-container">
                 <div className="cart-banner">
                     <img src={cart} alt="Cart Banner" className="cart-image" />
@@ -31,7 +34,7 @@ export default function Cart() {
                                     <tr>
                                         <td className="product-thumbnail text-left">
                                             <div className="cart-product">
-                                                <div className="product-img">
+                                                <div className="cart-product-img">
                                                     <Link to="cart-product.html"><img src={candle1} alt="Product 1" /></Link>
                                                 </div>
                                                 <div className="product-info">
@@ -56,7 +59,7 @@ export default function Cart() {
                                     <tr>
                                         <td className="product-thumbnail text-left">
                                             <div className="cart-product">
-                                                <div className="product-img">
+                                                <div className="cart-product-img">
                                                     <Link to="cart-product.html"><img src={candle2} alt="Product 2" /></Link>
                                                 </div>
                                                 <div className="product-info">
@@ -81,7 +84,7 @@ export default function Cart() {
                                     <tr>
                                         <td className="product-thumbnail">
                                             <div className="cart-product">
-                                                <div className="product-img">
+                                                <div className="cart-product-img">
                                                     <Link to="cart-product.html"><img src={candle3} alt="Product 3" /></Link>
                                                 </div>
                                                 <div className="product-info">
@@ -125,6 +128,7 @@ export default function Cart() {
                     </div>
                 </form>
             </div>
+            <div><Footer></Footer></div>
         </div>
     );
 }
