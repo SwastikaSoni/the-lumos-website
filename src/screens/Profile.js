@@ -40,6 +40,7 @@ export default function Profile() {
                         <span className="text-left">{form.email}</span>
                     </div>
                     <button onClick={() => setShowPasswordFields(!showPasswordFields)} className="button-one submit-btn-4">Change Password</button>
+
                     {showPasswordFields && (
                         <div className="password-fields">
                             <input
@@ -61,6 +62,7 @@ export default function Profile() {
                     )}
                 </div>
                 <div className="delete-account">
+
                     <h2 className="footer-title sad">
                         We are sad you are <span className="leaving-text">leaving!!!</span>
                     </h2>

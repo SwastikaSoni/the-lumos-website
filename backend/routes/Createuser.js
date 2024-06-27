@@ -60,7 +60,7 @@ router.post(
             res.json({ success: true });
         } catch (error) {
             console.log(error);
-            res.json({ success: false });
+            res.json({ success: false, message: "Server error" });
         }
     }
 );
@@ -104,7 +104,7 @@ router.post("/loginuser", [
             }
             catch (error) {
                 console.log(error)
-                res.json({ success: false });
+                res.json({ success: false, message: "Server error" });
             }
         });
 module.exports = router;

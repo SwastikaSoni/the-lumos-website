@@ -1817,3 +1817,14 @@ label {
         flex-direction: column;
     }
 }
+
+
+
+
+.error-message {
+  color: rgb(255, 75, 75);
+  font-size: 13px;
+  margin-top: 5px;
+  text-align: center;
+  font-weight: bold;
+}

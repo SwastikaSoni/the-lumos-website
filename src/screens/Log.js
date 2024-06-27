@@ -9,6 +9,8 @@ const Log = () => {
 
   let navigate = useNavigate()
   const [isSignUp, setIsSignUp] = useState(false);
+  const [loginError, setLoginError] = useState(null);
+  const [signupError, setSignupError] = useState(null);
 
   const handleToggle = () => {
     setIsSignUp(!isSignUp);
@@ -51,9 +53,20 @@ const Log = () => {
     const json = await response.json()
     console.log(json)
     if (!json.success) {
-      alert("enter valid creds")
+      if (json.errors) {
+        let errorMsg = "";
+        json.errors.forEach(error => {
+          errorMsg += `${error.msg}. `;
+        });
+        setSignupError(errorMsg);
+      } else {
+        setSignupError("Something went wrong");
+      }
     }
     if (json.success) {
+      setSignupError(null);
+
+      localStorage.setItem("authToken", json.authToken)
       navigate("/");
     }
   }
@@ -79,9 +92,20 @@ const Log = () => {
     const json = await response.json()
     console.log(json)
     if (!json.success) {
-      alert("enter valid creds")
+      if (json.errors && Array.isArray(json.errors)) {
+        let errorMsg = "";
+        json.errors.forEach(error => {
+          errorMsg += `${error.msg}. `;
+        });
+        setLoginError(errorMsg);
+      } else if (typeof json.errors === 'string') {
+        setLoginError(json.errors);
+      } else {
+        setLoginError("Something went wrong");
+      }
     }
     if (json.success) {
+      setLoginError(null);
       localStorage.setItem("authToken", json.authToken)
       navigate("/");
     }
@@ -99,6 +123,7 @@ const Log = () => {
             <form onSubmit={handleLogin} action="" class="sign-in-form">
               <img class="form-image" src={logo} alt=""></img>
               <h2 class="title">Sign in</h2>
+              {loginError && <p className="error-message">{loginError}</p>}
               <div class="input-field">
                 <i class="fas fa-user"></i>
                 <input type="text" placeholder='Username' name='username' value={logincreds.username} onChange={onLogin}></input>
@@ -117,6 +142,7 @@ const Log = () => {
             <form onSubmit={handleSubmit} action="" className="sign-up-form">
               <img class="form-image" src={logo} alt=""></img>
               <h2 class="title">Sign up</h2>
+              {signupError && <p className="error-message">{signupError}</p>}
               <div class="input-field">
                 <i class="fas fa-user"></i>
                 <input type="text" placeholder='Username' name='username' value={credentials.username} onChange={onChange}></input>

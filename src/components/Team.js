@@ -13,7 +13,7 @@ export default function Team() {
                 <div className="team-container">
                     <div className="team-row">
                         <div className="text-center">
-                            <h2 className="footer-title team-title">Team Member</h2>
+                            <h2 className="footer-title team-title">Founders</h2>
                         </div>
                     </div>
                 </div>

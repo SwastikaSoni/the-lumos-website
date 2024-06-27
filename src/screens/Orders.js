@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import orders from '../images/orders.png';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';

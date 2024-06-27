@@ -5,11 +5,6 @@ const app = express()
 const mongoDB = require("./db")
 const port = 5000
 mongoDB();
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -18,7 +13,7 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json())
 app.use('/api', require("./routes/Createuser"))
-
+app.use('/api', require("./routes/DisplayData"))
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

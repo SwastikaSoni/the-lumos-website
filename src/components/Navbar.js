@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../images/logo2.png';
 
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -18,6 +20,11 @@ const Navbar = () => {
     };
   }, []);
 
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken")
+    navigate('/');
+  }
   return (
     <nav className={`navbar navbar-expand-lg ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container navbar-container">
@@ -38,25 +45,36 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="">
+              <Link className="nav-link" to="/">
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="">
-                Cart
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="">
-                Profile
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="">
-                My Orders
-              </Link>
-            </li>
+            {(localStorage.getItem("authToken")) ?
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/cart">
+                    Cart
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    Profile
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/orders">
+                    My Orders
+                  </Link>
+                </li><li className="nav-item">
+                  <Link onClick={handleLogout} className="nav-link">
+                    Logout
+                  </Link>
+                </li> </> : <><li className="nav-item">
+                  <Link className="nav-link" to="/createuser">
+                    Login
+                  </Link>
+                </li>
+              </>}
           </ul>
         </div>
       </div>
