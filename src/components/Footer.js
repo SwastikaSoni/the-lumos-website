@@ -1,8 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 
 export default function Footer() {
-
+    const [feedback, setFeedback] = useState('');
+    const handleFeedback = async (e) => {
+        e.preventDefault();
+        await fetch("http://localhost:5000/api/sendfeedback", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                feedback: feedback
+            })
+        });
+        setFeedback('');
+    }
     return (
         <div>
             <div className="footer-area">
@@ -41,8 +54,9 @@ export default function Footer() {
                                     <div className="single-footer">
                                         <h3 className="footer-title title-border fs-5">Send Feedback</h3>
                                         <div className="footer-subscribe">
-                                            <form action="" className='footer-form'>
-                                                <input type="text" name="feedback" placeholder="Feedback Here..." className="form-control" />
+                                            <form action="" className='footer-form' onSubmit={handleFeedback}>
+                                                <input type="text" name="feedback" placeholder="Feedback Here..." className="form-control" value={feedback}
+                                                    onChange={(e) => setFeedback(e.target.value)} />
                                                 <button className="button-one submit-btn-4" type="submit" data-text="Subscribe">Submit</button>
                                             </form>
                                         </div>

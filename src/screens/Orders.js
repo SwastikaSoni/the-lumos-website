@@ -98,7 +98,7 @@ export default function Orders() {
                         </div>
                         {orderData.map((ordersArray, index) => (
                             ordersArray.slice(1).map((order, innerIndex) => (<>
-                                <div key={index} className="order-info bg-white text-center clearfix mb-30">
+                                <div className="order-info bg-white text-center clearfix mb-30">
                                     <div className="single-order-info order-product-img">
                                         <img src={order.image} alt="" />
                                     </div>
