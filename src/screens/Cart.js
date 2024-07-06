@@ -1,16 +1,94 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import cart from '../images/Shopping cart.png';
-import candle1 from '../images/lumos.jpg';
-import candle2 from '../images/lumos2.jpg';
-import candle3 from '../images/lumos3.jpg';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useCart, useDispatchCart } from '../context/ContextReducer';
 
 export default function Cart() {
+    let data = useCart();
+    let dispatch = useDispatchCart();
+
+    const handleQuantityChange = (index, increment) => {
+        let newQty = data[index].qty + increment;
+        if (newQty >= 1) {
+            dispatch({ type: "UPDATE_QUANTITY", index: index, qty: newQty });
+        }
+    };
+    const [userData, setUserData] = useState([]);
+
+    const fetchMyOrder = async () => {
+        try {
+            const username = localStorage.getItem('username');
+            const response = await fetch("http://localhost:5000/api/displayProfile", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.error) {
+                console.log('Backend error:', data.error);
+                setUserData([]);
+            } else {
+                setUserData(data);
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchMyOrder();
+    }, []);
+
+    if (data.length === 0) {
+        return (
+            <div>
+                <Navbar />
+                <div className="cart-container">
+                    <div className="cart-banner">
+                        <img src={cart} alt="Cart Banner" className="cart-image" />
+                    </div>
+                </div>
+                <div className="main-container tab-pane active show empty" id="shopping-cart">
+                    <div className="shop-cart-table empty-table">The cart is Empty!</div>
+                </div>
+                <Footer />
+            </div>
+        )
+    }
+    const handleCheckOut = async () => {
+        let username = localStorage.getItem("username");
+        let response = await fetch("http://localhost:5000/api/orderData", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                order_data: data,
+                username: username,
+                order_date: new Date().toDateString()
+            })
+        });
+        dispatch({ type: "DROP" })
+        const json = await response.json()
+        if (!json.success) {
+            throw new Error(`Checkout failed: ${json.message || 'Unknown error'}`);
+        }
+    }
+
+    let totalprice = data.reduce((total, product) => total + (product.price * product.qty), 0);
+
     return (
         <div>
-            <div><Navbar></Navbar></div>
+            <Navbar />
             <div className="cart-container">
                 <div className="cart-banner">
                     <img src={cart} alt="Cart Banner" className="cart-image" />
@@ -23,89 +101,41 @@ export default function Cart() {
                             <table className="cart-table">
                                 <thead>
                                     <tr>
-                                        <th className="">Product</th>
-                                        <th className="">Price</th>
-                                        <th className="">Quantity</th>
-                                        <th className="">Total</th>
-                                        <th className="">Remove</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th>Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td className="product-thumbnail text-left">
-                                            <div className="cart-product">
-                                                <div className="cart-product-img">
-                                                    <Link to="cart-product.html"><img src={candle1} alt="Product 1" /></Link>
+                                    {data.map((product, index) => (
+                                        <tr key={index}>
+                                            <td className="product-thumbnail text-left">
+                                                <div className="cart-product">
+                                                    <div className="cart-product-img">
+                                                        <img src={product.image} alt="" />
+                                                    </div>
+                                                    <div className="product-info">
+                                                        <h4 className="post-title">{product.name}</h4>
+                                                        <p className="text-light-p">Essence: {product.fragrance}</p>
+                                                    </div>
                                                 </div>
-                                                <div className="product-info">
-                                                    <h4 className="post-title"><Link className="text-light-black" to="#">dummy product name</Link></h4>
-                                                    <p className="text-light-p">Essence: lavender</p>
+                                            </td>
+                                            <td className="product-price">₹{product.price.toFixed(2)}</td>
+                                            <td className="product-quantity">
+                                                <div className="cart-plus-minus">
+                                                    <div className="dec qtybutton" onClick={() => handleQuantityChange(index, -1)}>-</div>
+                                                    <input type="number" value={product.qty} readOnly name="qtybutton" className="cart-plus-minus-box" />
+                                                    <div className="inc qtybutton" onClick={() => handleQuantityChange(index, 1)}>+</div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td className="product-price">$56.00</td>
-                                        <td className="product-quantity">
-                                            <div className="cart-plus-minus">
-                                                <div className="dec qtybutton">-</div>
-                                                <input type="text" value="02" name="qtybutton" className="cart-plus-minus-box" />
-                                                <div className="inc qtybutton">+</div>
-                                            </div>
-                                        </td>
-                                        <td className="product-subtotal">$112.00</td>
-                                        <td className="product-remove">
-                                            <Link to="#"><i className="zmdi zmdi-close"></i></Link>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="product-thumbnail text-left">
-                                            <div className="cart-product">
-                                                <div className="cart-product-img">
-                                                    <Link to="cart-product.html"><img src={candle2} alt="Product 2" /></Link>
-                                                </div>
-                                                <div className="product-info">
-                                                    <h4 className="post-title"><Link className="text-light-black" to="#">dummy product name</Link></h4>
-                                                    <p className="text-light-p">Essence: Mint</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="product-price">$56.00</td>
-                                        <td className="product-quantity">
-                                            <div className="cart-plus-minus">
-                                                <div className="dec qtybutton">-</div>
-                                                <input type="text" name="qtybutton" className="cart-plus-minus-box" />
-                                                <div className="inc qtybutton">+</div>
-                                            </div>
-                                        </td>
-                                        <td className="product-subtotal">$112.00</td>
-                                        <td className="product-remove">
-                                            <Link to="#"><i className="zmdi zmdi-close"></i></Link>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="product-thumbnail">
-                                            <div className="cart-product">
-                                                <div className="cart-product-img">
-                                                    <Link to="cart-product.html"><img src={candle3} alt="Product 3" /></Link>
-                                                </div>
-                                                <div className="product-info">
-                                                    <h4 className="post-title"><Link className="text-light-black" to="#">dummy product name</Link></h4>
-                                                    <p className="text-light-p">Essence: Mint</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="product-price">$56.00</td>
-                                        <td className="product-quantity">
-                                            <div className="cart-plus-minus">
-                                                <div className="dec qtybutton">-</div>
-                                                <input type="text" value="02" name="qtybutton" className="cart-plus-minus-box" />
-                                                <div className="inc qtybutton">+</div>
-                                            </div>
-                                        </td>
-                                        <td className="product-subtotal">$112.00</td>
-                                        <td className="product-remove">
-                                            <Link to="#"><i className="zmdi zmdi-close"></i></Link>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td className="product-subtotal">₹{(product.price * product.qty).toFixed(2)}</td>
+                                            <td className="product-remove">
+                                                <i className="zmdi zmdi-close" onClick={() => { dispatch({ type: "REMOVE", index: index }) }}></i>
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
@@ -118,17 +148,17 @@ export default function Cart() {
                                     <tbody>
                                         <tr>
                                             <td className="text-left">Cart Subtotal</td>
-                                            <td className="text-end">$155.00</td>
+                                            <td className="text-end">₹{totalprice.toFixed(2)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button className="button-one submit-btn-4" type="submit" data-text="Subscribe">Checkout</button>
+                                <button className="button-one" onClick={handleCheckOut}>Checkout</button>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-            <div><Footer></Footer></div>
+            <Footer />
         </div>
     );
 }

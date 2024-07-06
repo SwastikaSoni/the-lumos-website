@@ -4,7 +4,7 @@ import login from '../images/candle.svg';
 import login2 from '../images/login.svg';
 import logo from '../images/logo2.png';
 import Footer from '../components/Footer';
-
+import Notification from '../components/Notification';
 const Log = () => {
 
   let navigate = useNavigate()
@@ -12,6 +12,7 @@ const Log = () => {
   const [loginError, setLoginError] = useState(null);
   const [signupError, setSignupError] = useState(null);
 
+  const [notification, setNotification] = useState({ message: '', type: '' })
   const handleToggle = () => {
     setIsSignUp(!isSignUp);
   };
@@ -51,7 +52,6 @@ const Log = () => {
       )
     });
     const json = await response.json()
-    console.log(json)
     if (!json.success) {
       if (json.errors) {
         let errorMsg = "";
@@ -65,10 +65,12 @@ const Log = () => {
     }
     if (json.success) {
       setSignupError(null);
-
-      localStorage.setItem("authToken", json.authToken)
-      navigate("/");
+      setNotification({ message: 'User created successfully!', type: 'success' });
     }
+    setTimeout(() => {
+      setNotification({ message: '', type: '' });
+      window.location.href = '/createuser';
+    }, 1000);
   }
 
   const onChange = (event) => {
@@ -90,7 +92,6 @@ const Log = () => {
       )
     });
     const json = await response.json()
-    console.log(json)
     if (!json.success) {
       if (json.errors && Array.isArray(json.errors)) {
         let errorMsg = "";
@@ -106,6 +107,7 @@ const Log = () => {
     }
     if (json.success) {
       setLoginError(null);
+      localStorage.setItem("username", logincreds.username)
       localStorage.setItem("authToken", json.authToken)
       navigate("/");
     }
@@ -117,69 +119,74 @@ const Log = () => {
 
   return (
     <div>
-      <div class="home">
-        <div class="forms-container">
-          <div class="signin-signup">
-            <form onSubmit={handleLogin} action="" class="sign-in-form">
-              <img class="form-image" src={logo} alt=""></img>
-              <h2 class="title">Sign in</h2>
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        onClose={() => setNotification({ message: '', type: '' })}
+      />
+      <div className="home">
+        <div className="forms-container">
+          <div className="signin-signup">
+            <form onSubmit={handleLogin} action="" className="sign-in-form">
+              <img className="form-image" src={logo} alt=""></img>
+              <h2 className="title">Sign in</h2>
               {loginError && <p className="error-message">{loginError}</p>}
-              <div class="input-field">
-                <i class="fas fa-user"></i>
+              <div className="input-field">
+                <i className="fas fa-user"></i>
                 <input type="text" placeholder='Username' name='username' value={logincreds.username} onChange={onLogin}></input>
               </div>
-              <div class="input-field">
-                <i class="fas fa-lock"></i>
+              <div className="input-field">
+                <i className="fas fa-lock"></i>
                 <input type="password" placeholder='Password' name='password' value={logincreds.password} onChange={onLogin}></input>
               </div>
-              <input type="submit" value="Login" class="btn solid"></input>
-              <p class="social-text">Or Sign In with Google</p>
-              <div class="social-media">
-                <Link to="#" class="social-icon"><i className="fab fa-google"></i></Link>
+              <input type="submit" value="Login" className="btn solid"></input>
+              <p className="social-text">Or Sign In with Google</p>
+              <div className="social-media">
+                <Link to="#" className="social-icon"><i className="fab fa-google"></i></Link>
               </div>
             </form>
 
             <form onSubmit={handleSubmit} action="" className="sign-up-form">
-              <img class="form-image" src={logo} alt=""></img>
-              <h2 class="title">Sign up</h2>
+              <img className="form-image" src={logo} alt=""></img>
+              <h2 className="title">Sign up</h2>
               {signupError && <p className="error-message">{signupError}</p>}
-              <div class="input-field">
-                <i class="fas fa-user"></i>
+              <div className="input-field">
+                <i className="fas fa-user"></i>
                 <input type="text" placeholder='Username' name='username' value={credentials.username} onChange={onChange}></input>
               </div>
-              <div class="input-field">
-                <i class="fas fa-envelope"></i>
+              <div className="input-field">
+                <i className="fas fa-envelope"></i>
                 <input type="text" placeholder='Email' name='email' value={credentials.email} onChange={onChange}></input>
               </div>
-              <div class="input-field">
-                <i class="fas fa-lock"></i>
+              <div className="input-field">
+                <i className="fas fa-lock"></i>
                 <input type="password" placeholder='Password' name='password' value={credentials.password} onChange={onChange}></input>
               </div>
-              <input type="submit" value="Sign up" class="btn solid"></input>
-              <p class="social-text">Or Sign up with Google</p>
-              <div class="social-media">
-                <Link to="#" class="social-icon"><i className="fab fa-google"></i></Link>
+              <input type="submit" value="Sign up" className="btn solid"></input>
+              <p className="social-text">Or Sign up with Google</p>
+              <div className="social-media">
+                <Link to="#" className="social-icon"><i className="fab fa-google"></i></Link>
               </div>
             </form>
           </div>
         </div>
-        <div class="panels-container">
-          <div class="panel left-panel">
-            <div class="panel-content">
-              <h3 class="panel-h3">New Here?</h3>
-              <p class="panel-p">Light Up Your Life with Our Exquisite Candles – Join Us Today for a Brighter Tomorrow!</p>
-              <button class="btn solid" id="sign-up-btn">Sign up</button>
+        <div className="panels-container">
+          <div className="panel left-panel">
+            <div className="panel-content">
+              <h3 className="panel-h3">New Here?</h3>
+              <p className="panel-p">Light Up Your Life with Our Exquisite Candles – Join Us Today for a Brighter Tomorrow!</p>
+              <button className="btn solid" id="sign-up-btn">Sign up</button>
             </div>
-            <img src={login} class="panel-image" alt=""></img>
+            <img src={login} className="panel-image" alt=""></img>
           </div>
 
-          <div class="panel right-panel">
-            <div class="panel-content">
-              <h3 class="panel-h3">One of us?</h3>
-              <p class="panel-p">Welcome Back! Let's Ignite Your Ambiance – Log In to Explore New Scents and Delights!</p>
-              <button class="btn solid" id="sign-in-btn">Sign in</button>
+          <div className="panel right-panel">
+            <div className="panel-content">
+              <h3 className="panel-h3">One of us?</h3>
+              <p className="panel-p">Welcome Back! Let's Ignite Your Ambiance – Log In to Explore New Scents and Delights!</p>
+              <button className="btn solid" id="sign-in-btn">Sign in</button>
             </div>
-            <img src={login2} class="panel-image" alt=""></img>
+            <img src={login2} className="panel-image" alt=""></img>
           </div>
         </div>
       </div>

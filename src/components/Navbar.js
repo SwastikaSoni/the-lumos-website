@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Badge from 'react-bootstrap/Badge'
 import logo from '../images/logo2.png';
+import { useCart } from '../context/ContextReducer';
 
-import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
-  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -23,8 +23,14 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken")
-    navigate('/');
+    localStorage.removeItem("username")
+    localStorage.removeItem("cart")
+    window.location.href = '/';
+
   }
+
+  let data = useCart();
+
   return (
     <nav className={`navbar navbar-expand-lg ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container navbar-container">
@@ -53,7 +59,8 @@ const Navbar = () => {
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/cart">
-                    Cart
+                    Cart{" "}
+                    <Badge pill className="custom-badge">{data.length}</Badge>
                   </Link>
                 </li>
                 <li className="nav-item">

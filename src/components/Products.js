@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatchCart, useCart } from '../context/ContextReducer';
-const Products = () => {
-    // Dummy data for products (can be replaced with actual data from API)
-    const [products, setProdcuts] = useState([])
 
+const Products = () => {
+    const [products, setProducts] = useState([]);
     const [imageLoading, setImageLoading] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 8;
+    const [showModal, setShowModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [form, setForm] = useState({ fragrance: '', quantity: 1 });
+
+    const dispatch = useDispatchCart();
+    const data = useCart();
+
     const loadData = async () => {
         let response = await fetch("http://localhost:5000/api/products", {
             method: "POST",
@@ -14,24 +22,21 @@ const Products = () => {
             },
         });
         response = await response.json();
-        setProdcuts(response);
-    }
+        setProducts(response);
+    };
+
     useEffect(() => {
         loadData();
     }, []);
-    // State to manage current page
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 8; // Number of products to display per page
 
-    // Logic to calculate pagination
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
-    // Function to handle page change
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
     const handleImageLoad = (id) => {
         setImageLoading(prevState => ({
             ...prevState,
@@ -53,23 +58,15 @@ const Products = () => {
         }));
     };
 
-
-
-    const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-    const [selectedProduct, setSelectedProduct] = useState(null);
-
     const handleShowModal = (product) => {
         setSelectedProduct(product);
+        setForm({ fragrance: '', quantity: 1 });
         setShowModal(true);
     };
 
     const handleClose = () => {
         setShowModal(false);
     };
-    const [form, setForm] = useState({
-        fragrance: '',
-        quantity: 1
-    });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -78,28 +75,65 @@ const Products = () => {
             [name]: value
         }));
     };
+    const handleQuantity = (event) => {
+        const { name, value } = event.target;
+        setForm(prevState => ({
+            ...prevState,
+            [name]: Number(value)
+        }));
+
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
     };
-    let dispatch = useDispatchCart();
-    const [fragrance, setFragrance] = useState("")
-    const [qty, setQty] = useState(1)
-    let data = useCart()
+
     const handleAddToCart = async () => {
-        await dispatch({ type: "ADD", id: selectedProduct._id, name: selectedProduct.name, price: selectedProduct.price, qty: form.quantity, fragrance: form.fragrance })
-        console.log(data);
-    }
+        const existingProductIndex = data.findIndex(item => item.id === selectedProduct._id);
+
+        if (existingProductIndex !== -1) {
+            const existingProduct = data[existingProductIndex];
+            if (existingProduct.fragrance === form.fragrance) {
+                await dispatch({
+                    type: "UPDATE",
+                    id: existingProduct.id,
+                    qty: form.quantity
+                });
+            } else {
+                await dispatch({
+                    type: "ADD",
+                    id: selectedProduct._id,
+                    name: selectedProduct.name,
+                    price: selectedProduct.price,
+                    qty: form.quantity,
+                    fragrance: form.fragrance,
+                    image: selectedProduct.product_image[0]
+                });
+            }
+        } else {
+            await dispatch({
+                type: "ADD",
+                id: selectedProduct._id,
+                name: selectedProduct.name,
+                price: selectedProduct.price,
+                qty: form.quantity,
+                fragrance: form.fragrance,
+                image: selectedProduct.product_image[0]
+            });
+        }
+        setForm({ fragrance: '', quantity: 1 });
+        setShowModal(false);
+    };
 
     return (
         <>
             <div className="product-title">
                 <div className="text-center">
-                    <h2 className="footer-title team-title ">Product Tab</h2>
+                    <h2 className="footer-title team-title">Product Tab</h2>
                 </div>
             </div>
             <div className="products-grid">
                 {currentProducts.map(product => (
-                    <div key={product.id} className="single-product">
+                    <div key={product._id} className="single-product">
                         <div className="product-img">
                             {imageLoading[product.id] ? (
                                 <div className="image-placeholder"></div>
@@ -121,7 +155,6 @@ const Products = () => {
                                     <i className="fas fa-shopping-cart"></i>
                                 </Link>
                             </div>
-
                         </div>
                         <div className="product-info clearfix">
                             <div className="fix">
@@ -145,7 +178,6 @@ const Products = () => {
                     </div>
                 ))}
             </div>
-            {/* Pagination */}
             <div className="pagination-container col-lg-12 text-center">
                 <ul className="pagination">
                     {[...Array(Math.ceil(products.length / productsPerPage))].map((_, index) => (
@@ -156,9 +188,6 @@ const Products = () => {
                 </ul>
             </div>
             <div className="extra"></div>
-
-
-
             <div>
                 {showModal && selectedProduct && (
                     <div className="modal fade show" id="productModal" tabIndex="-1" style={{ display: 'block' }} aria-modal="true" role="dialog">
@@ -201,10 +230,10 @@ const Products = () => {
                                                     <hr />
                                                 </div>
                                                 <div className="quick-add-to-cart">
-                                                    <form method="post" className="modal-cart" onSubmit={handleSubmit}>
+                                                    <form method="post" className="modal-cart" >
                                                         <select
                                                             id="fragrance"
-                                                            className="modal-select custom-select form-control"
+                                                            className="modal-select custom-select"
                                                             name="fragrance"
                                                             value={form.fragrance}
                                                             onChange={handleChange}
@@ -225,34 +254,36 @@ const Products = () => {
                                                             id="quantity"
                                                             name="quantity"
                                                             value={form.quantity}
-                                                            onChange={handleChange}
+                                                            onChange={handleQuantity}
                                                             min="1"
                                                             className="modal-form-control custom-select"
                                                         />
-                                                        {(localStorage.getItem("authToken")) ?
-                                                            <button className="modal-button button-one submit-btn-4 col-md-10" type="submit" data-text="Add to Cart" onClick={handleAddToCart}>Add to Cart</button> : <button
+                                                        {(localStorage.getItem("authToken")) ? (
+                                                            <button className="modal-button button-one submit-btn-4 col-md-10" type="submit" data-text="Add to Cart" onClick={handleAddToCart}>Add to Cart</button>
+                                                        ) : (
+                                                            <button
                                                                 className="submit-btn-4 col-md-10"
                                                                 type="button"
                                                                 data-text="Login to add"
                                                                 disabled
                                                             >
                                                                 Login to add
-                                                            </button>}
+                                                            </button>
+                                                        )}
                                                     </form>
                                                 </div>
                                                 <div className="quick-desc">
                                                     {selectedProduct.description}
                                                 </div>
-                                            </div>{/* .product-info */}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>{/* .modal-body */}
-                            </div>{/* .modal-content */}
-                        </div>{/* .modal-dialog */}
-                    </div >
-                )
-                }
-            </div >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </>
     );
 };

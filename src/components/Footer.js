@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Footer() {
+
     return (
         <div>
             <div className="footer-area">
@@ -70,8 +71,8 @@ export default function Footer() {
                                         <h3 className="footer-title title-border fs-5">Send Feedback</h3>
                                         <div className="footer-subscribe">
                                             <form action="" className='footer-form'>
-                                                <input type="text" name="feedback" placeholder="Feedback Here..." className="form-control" />
-                                                <button className="button-one submit-btn-4" type="submit" data-text="Subscribe">Submit</button>
+                                                <input type="text" name="feedback" placeholder="Feedback Here..." className="form-control" required />
+                                                <button className="button-one submit-btn-4" type="submit">Submit</button>
                                             </form>
                                         </div>
                                     </div>
