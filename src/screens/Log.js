@@ -140,10 +140,10 @@ const Log = () => {
                 <input type="password" placeholder='Password' name='password' value={logincreds.password} onChange={onLogin}></input>
               </div>
               <input type="submit" value="Login" className="btn solid"></input>
-              <p className="social-text">Or Sign In with Google</p>
+              {/* <p className="social-text">Or Sign In with Google</p>
               <div className="social-media">
                 <Link to="#" className="social-icon"><i className="fab fa-google"></i></Link>
-              </div>
+              </div> */}
             </form>
 
             <form onSubmit={handleSubmit} action="" className="sign-up-form">
@@ -163,10 +163,10 @@ const Log = () => {
                 <input type="password" placeholder='Password' name='password' value={credentials.password} onChange={onChange}></input>
               </div>
               <input type="submit" value="Sign up" className="btn solid"></input>
-              <p className="social-text">Or Sign up with Google</p>
+              {/* <p className="social-text">Or Sign up with Google</p>
               <div className="social-media">
                 <Link to="#" className="social-icon"><i className="fab fa-google"></i></Link>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
