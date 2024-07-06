@@ -25,7 +25,7 @@ export default function Profile() {
     const fetchMyOrder = async () => {
         try {
             const username = localStorage.getItem('username');
-            const response = await fetch("http://localhost:5000/api/displayProfile", {
+            const response = await fetch("https://the-lumos-website.onrender.com/api/displayProfile", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export default function Profile() {
             return;
         }
         try {
-            const response = await fetch("http://localhost:5000/api/changePassword", {
+            const response = await fetch("https://the-lumos-website.onrender.com/api/changePassword", {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export default function Profile() {
     const [deleteError, setDeleteError] = useState('')
     const handleDeleteAccount = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/deleteAccount", {
+            const response = await fetch("https://the-lumos-website.onrender.com/api/deleteAccount", {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

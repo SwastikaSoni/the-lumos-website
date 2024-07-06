@@ -5,14 +5,14 @@ import orders from '../images/orders.png';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Notification from '../components/Notification';
-
+import { useNavigate } from 'react-router-dom';
 export default function Orders() {
     const [orderData, setOrderData] = useState([]);
-
+    const navigate = useNavigate();
     const fetchMyOrder = async () => {
         try {
             const username = localStorage.getItem('username');
-            const response = await fetch("http://localhost:5000/api/myOrderData", {
+            const response = await fetch("https://the-lumos-website.onrender.com/api/myOrderData", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export default function Orders() {
     const [notification, setNotification] = useState({ message: '', type: '' });
     const handleDelete = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/clearHistory", {
+            const response = await fetch("https://the-lumos-website.onrender.com/api/clearHistory", {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function Orders() {
                         </div>
                         {orderData.map((ordersArray, index) => (
                             ordersArray.slice(1).map((order, innerIndex) => (<>
-                                <div className="order-info bg-white text-center clearfix mb-30">
+                                <div className="order-info bg-white text-center clearfix mb-30" key={`${index}-${innerIndex}`}>
                                     <div className="single-order-info order-product-img">
                                         <img src={order.image} alt="" />
                                     </div>

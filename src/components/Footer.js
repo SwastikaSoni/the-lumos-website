@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-
+import Notification from '../components/Notification';
 export default function Footer() {
     const [feedback, setFeedback] = useState('');
+    const [notification, setNotification] = useState({ message: '', type: '' })
     const handleFeedback = async (e) => {
         e.preventDefault();
-        await fetch("http://localhost:5000/api/sendfeedback", {
+        await fetch("https://the-lumos-website.onrender.com/api/sendfeedback", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -15,9 +16,19 @@ export default function Footer() {
             })
         });
         setFeedback('');
+        setNotification({ message: 'Thanks for the feedback!', type: 'success' });
+        setTimeout(() => {
+            setNotification({ message: '', type: '' });
+        }, 1000);
     }
+
     return (
         <div>
+            <Notification
+                message={notification.message}
+                type={notification.type}
+                onClose={() => setNotification({ message: '', type: '' })}
+            />
             <div className="footer-area">
                 <div className="container">
                     {(localStorage.getItem("authToken")) ?

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import login from '../images/candle.svg';
@@ -42,7 +43,7 @@ const Log = () => {
   const [credentials, setcredentials] = useState({ username: "", email: "", password: "" })
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/createuser", {
+    const response = await fetch("https://the-lumos-website.onrender.com/api/createuser", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -82,7 +83,7 @@ const Log = () => {
   const [logincreds, setlogincreds] = useState({ username: "", password: "" })
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/loginuser", {
+    const response = await fetch("https://the-lumos-website.onrender.com/api/loginuser", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

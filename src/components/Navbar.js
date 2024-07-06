@@ -59,7 +59,7 @@ const Navbar = () => {
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/cart">
-                    Cart{" "}
+                    Cart
                     <Badge pill className="custom-badge">{data.length}</Badge>
                   </Link>
                 </li>

@@ -24,7 +24,7 @@ const sendMail = (req, res) => {
         item: order.name,
         quantity: order.qty,
         price: `₹${order.price.toFixed(2)}`,
-        fragrance: order.fragrance
+        fragrance: order.fragrance ? order.fragrance : "None"
     }));
     let response = {
         body: {

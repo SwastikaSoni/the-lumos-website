@@ -15,7 +15,7 @@ const Products = () => {
     const data = useCart();
 
     const loadData = async () => {
-        let response = await fetch("http://localhost:5000/api/products", {
+        let response = await fetch("https://the-lumos-website.onrender.com/api/products", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
