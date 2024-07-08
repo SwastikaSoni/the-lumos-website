@@ -104,7 +104,7 @@ export default function Checkout() {
                     order_date: new Date().toDateString()
                 })
             });
-            await fetch("http://localhost:5000/api/saveBill", {
+            await fetch("https://the-lumos-website.onrender.com/api/saveBill", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -146,7 +146,7 @@ export default function Checkout() {
     const [shippingCost, setShippingCost] = useState(0);
     const fetchShippingCost = async (state) => {
         try {
-            const response = await fetch("http://localhost:5000/api/calculate-shipping", {
+            const response = await fetch("https://the-lumos-website.onrender.com/api/calculate-shipping", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -324,7 +324,7 @@ export default function Checkout() {
                                         </tr>
                                         <tr>
                                             <td className="checkout-text text-total">Order Total</td>
-                                            <td className="checkout-text text-total">${finalprice.toFixed(2)}</td>
+                                            <td className="checkout-text text-total">₹{finalprice.toFixed(2)}</td>
                                         </tr>
 
                                     </tbody>
