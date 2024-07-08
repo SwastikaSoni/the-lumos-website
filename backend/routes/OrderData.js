@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Order = require('../models/Orders');
-
+const Order = require('../models/Orders')
+const State = require('../models/State')
+const Bill = require('../models/Bill')
 router.post('/orderData', async (req, res) => {
     let data = req.body.order_data
     await data.splice(0, 0, { Order_date: req.body.order_date })
@@ -59,6 +60,53 @@ router.delete('/clearHistory', async (req, res) => {
     } catch (error) {
         console.error('Error deleting:', error);
         res.status(500).json({ error: 'Server error. Please try again.' });
+    }
+});
+router.post('/calculate-shipping', async (req, res) => {
+    const { state } = req.body;
+
+    try {
+        const stateData = await State.findOne({ state });
+
+        if (!stateData) {
+            return res.status(404).json({ msg: 'State not found' });
+        }
+
+        res.json({ shipping: stateData.shipping });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+router.post('/saveBill', async (req, res) => {
+    try {
+        const { fname, lname, email, phone, address, total, username } = req.body;
+
+        // Fetch the latest order for the given email
+        const latestOrder = await Order.findOne({ username: username }).sort({ _id: -1 }).limit(1);
+        if (!latestOrder) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        const orderId = latestOrder._id;
+
+        const newBill = new Bill({
+            fname,
+            lname,
+            email,
+            phone,
+            address,
+
+            total,
+            orderId
+        });
+
+        await newBill.save();
+
+        res.json({ success: true, message: "Billing information saved successfully" });
+    } catch (error) {
+        console.error("Error saving billing information:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
     }
 });
 module.exports = router;
