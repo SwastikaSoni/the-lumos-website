@@ -83,9 +83,6 @@ const Products = () => {
         }));
 
     }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-    };
 
     const handleAddToCart = async () => {
         const existingProductIndex = data.findIndex(item => item.id === selectedProduct._id);

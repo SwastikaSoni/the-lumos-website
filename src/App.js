@@ -15,6 +15,7 @@ import Orders from './screens/Orders'
 import { CartProvider } from './context/ContextReducer';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginProtectedRoute from './components/LoginProtectedRoute'
+import Reset from "./screens/Reset"
 function App() {
   return (
     <CartProvider>
@@ -27,6 +28,7 @@ function App() {
             <Route exact path="/cart" element={<Cart></Cart>}></Route>
             <Route exact path="/checkout" element={<Checkout></Checkout>}></Route>
             <Route exact path="/orders" element={<Orders></Orders>}></Route>
+            <Route exact path="/reset" element={<Reset></Reset>}></Route>
           </Routes>
         </div>
       </Router>

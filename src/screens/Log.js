@@ -9,14 +9,11 @@ import Notification from '../components/Notification';
 const Log = () => {
 
   let navigate = useNavigate()
-  const [isSignUp, setIsSignUp] = useState(false);
+
   const [loginError, setLoginError] = useState(null);
   const [signupError, setSignupError] = useState(null);
 
   const [notification, setNotification] = useState({ message: '', type: '' })
-  const handleToggle = () => {
-    setIsSignUp(!isSignUp);
-  };
   useEffect(() => {
     const sign_in_btn = document.querySelector("#sign-in-btn");
     const sign_up_btn = document.querySelector("#sign-up-btn");
@@ -67,11 +64,12 @@ const Log = () => {
     if (json.success) {
       setSignupError(null);
       setNotification({ message: 'User created successfully!', type: 'success' });
+      setTimeout(() => {
+        setNotification({ message: '', type: '' });
+        window.location.href = '/createuser';
+      }, 1000);
     }
-    setTimeout(() => {
-      setNotification({ message: '', type: '' });
-      window.location.href = '/createuser';
-    }, 1000);
+
   }
 
   const onChange = (event) => {
@@ -145,8 +143,10 @@ const Log = () => {
               <div className="social-media">
                 <Link to="#" className="social-icon"><i className="fab fa-google"></i></Link>
               </div> */}
-            </form>
 
+              <p>Forgot Password?</p>
+              <Link to="/reset" className="button-one">Reset Password</Link>
+            </form>
             <form onSubmit={handleSubmit} action="" className="sign-up-form">
               <img className="form-image" src={logo} alt=""></img>
               <h2 className="title">Sign up</h2>

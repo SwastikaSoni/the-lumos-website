@@ -5,10 +5,8 @@ import orders from '../images/orders.png';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Notification from '../components/Notification';
-import { useNavigate } from 'react-router-dom';
 export default function Orders() {
     const [orderData, setOrderData] = useState([]);
-    const navigate = useNavigate();
     const fetchMyOrder = async () => {
         try {
             const username = localStorage.getItem('username');
@@ -55,7 +53,7 @@ export default function Orders() {
             const data = await response.json();
 
             if (data.error) {
-                setNotification({ message: 'Failed to delete. Please try again.', type: 'failure' });
+                setNotification({ message: 'Failed to delete. Please try again.', type: 'error' });
             } else {
                 setNotification({ message: 'History cleared!', type: 'success' });
             } setTimeout(() => {
@@ -63,7 +61,7 @@ export default function Orders() {
                 window.location.href = '/orders';
             }, 1000);
         } catch (error) {
-            setNotification({ message: 'Failed to delete. Please try again.', type: 'failure' });
+            setNotification({ message: 'Failed to delete. Please try again.', type: 'error' });
         }
     };
 
