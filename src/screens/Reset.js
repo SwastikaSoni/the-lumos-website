@@ -10,7 +10,7 @@ export default function Reset() {
         setUserNotFound(false); // Reset the user not found state
 
         // Define the fetch request
-        fetch("http://localhost:5000/api/forgot-password", {
+        fetch("https://the-lumos-website.onrender.com/api/forgot-password", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

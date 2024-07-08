@@ -127,7 +127,7 @@ router.post("/forgot-password", async (req, res) => {
                 pass: process.env.PASS
             }
         }
-        const link = `http://localhost:5000/api/reset-password/${oldUser._id}/${token}`;
+        const link = `https://the-lumos-website.onrender.com/api/reset-password/${oldUser._id}/${token}`;
         let transporter = nodemailer.createTransport(config);
         let MailGenerator = new Mailgen({
             theme: 'default',
